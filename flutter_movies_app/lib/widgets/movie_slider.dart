@@ -60,7 +60,11 @@ class _MovieSliderState extends State<MovieSlider> {
                 controller: scrollController,
                 itemCount: widget.movies.length,
                 itemBuilder: ((context, index) {
-                  return _MoviePoster(movie: widget.movies[index]);
+                  return _MoviePoster(
+                    movie: widget.movies[index],
+                    heroId:
+                        "${widget.sliderTittle}-$index-${widget.movies[index].id}",
+                  );
                 })),
           )
         ],
@@ -70,12 +74,15 @@ class _MovieSliderState extends State<MovieSlider> {
 }
 
 class _MoviePoster extends StatelessWidget {
-  const _MoviePoster({super.key, required this.movie});
+  const _MoviePoster({required this.movie, required this.heroId});
 
   final Movie movie;
+  final String heroId;
 
   @override
   Widget build(BuildContext context) {
+    movie.heroId = heroId;
+
     return Container(
         width: 100,
         height: 190,
@@ -86,16 +93,19 @@ class _MoviePoster extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(context, "details", arguments: movie);
               },
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: FadeInImage(
-                  placeholder:
-                      const AssetImage("assets/images/loading_gif.gif"),
-                  image: NetworkImage(movie.fullPosterImg),
-                  width: 100,
-                  height: 160,
-                  //adapta el contenido al tamaño del padre
-                  fit: BoxFit.cover,
+              child: Hero(
+                tag: movie.heroId!,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: FadeInImage(
+                    placeholder:
+                        const AssetImage("assets/images/loading_gif.gif"),
+                    image: NetworkImage(movie.fullPosterImg),
+                    width: 100,
+                    height: 160,
+                    //adapta el contenido al tamaño del padre
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),

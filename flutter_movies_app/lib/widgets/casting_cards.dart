@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
 import '../models/models.dart';
@@ -32,7 +33,7 @@ class CastingCards extends StatelessWidget {
           width: double.infinity,
           height: 180,
           child: ListView.builder(
-            itemCount: 10,
+            itemCount: cast.length,
             scrollDirection: Axis.horizontal,
             itemBuilder: (_, int index) => _CastCard(cast[index]),
           ),
@@ -58,7 +59,7 @@ class _CastCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: FadeInImage(
-              placeholder: AssetImage("assets/images/loading_gif.gif"),
+              placeholder: AssetImage('assets/images/no-image.jpg'),
               image: NetworkImage(actor.fullProfilePath),
               height: 140,
               width: 100,
